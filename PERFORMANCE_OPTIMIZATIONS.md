@@ -1,5 +1,6 @@
 # 🚀 Performance Optimizations
 
+
 ## The Problem
 The website was experiencing lag and slowness when the camera was activated due to:
 1. High-resolution video (1920x1080 at 30fps)
