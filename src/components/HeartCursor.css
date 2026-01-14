@@ -1,0 +1,84 @@
+/* Red heart cursor - UNDERTALE Soul */
+body,
+html,
+#root {
+    cursor: none !important;
+}
+
+/* Custom heart cursor */
+.heart-cursor {
+    position: fixed !important;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    z-index: 99999 !important;
+    /* Don't use transform translate, it causes positioning issues */
+    margin-left: -10px;
+    margin-top: -10px;
+}
+
+.heart-cursor::before {
+    content: '❤';
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 20px;
+    color: #ff0000;
+    filter: drop-shadow(0 0 6px rgba(255, 0, 0, 0.9)) drop-shadow(0 0 3px #ffffff);
+    animation: heartbeat 1.5s infinite;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 1);
+    line-height: 1;
+}
+
+/* Glow effect when hovering over clickable elements */
+.heart-cursor.hovering::before {
+    font-size: 24px;
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 1)) drop-shadow(0 0 5px #ffffff);
+    animation: heartbeat-fast 0.5s infinite;
+    text-shadow: 0 0 15px rgba(255, 0, 0, 1);
+}
+
+@keyframes heartbeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes heartbeat-fast {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+/* Hide default cursor on clickable elements */
+button,
+a,
+.dialogue-box,
+.webcam-prompt,
+.webcam-error,
+.start-mirror-btn,
+.cancel-btn,
+.retry-btn,
+.sound-toggle,
+[onclick],
+input,
+textarea {
+    cursor: none !important;
+}
+
+/* Force cursor none everywhere */
+* {
+    cursor: none !important;
+}

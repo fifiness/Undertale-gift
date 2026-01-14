@@ -30,8 +30,8 @@ class SoundEffects {
         oscillator.frequency.value = 700;
         oscillator.type = 'sine';  // Softer than square wave
 
-        // Very quiet volume - barely audible but present
-        gainNode.gain.setValueAtTime(0.02, this.audioContext.currentTime);
+        // Audible but gentle volume
+        gainNode.gain.setValueAtTime(0.08, this.audioContext.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.03);
 
         oscillator.start(this.audioContext.currentTime);
@@ -52,7 +52,7 @@ class SoundEffects {
         oscillator.frequency.exponentialRampToValueAtTime(800, this.audioContext.currentTime + 0.1);
         oscillator.type = 'square';
 
-        gainNode.gain.setValueAtTime(0.08, this.audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.15, this.audioContext.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
 
         oscillator.start(this.audioContext.currentTime);
@@ -73,7 +73,7 @@ class SoundEffects {
         oscillator.frequency.exponentialRampToValueAtTime(1200, this.audioContext.currentTime + 0.08);
         oscillator.type = 'square';
 
-        gainNode.gain.setValueAtTime(0.06, this.audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.12, this.audioContext.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.08);
 
         oscillator.start(this.audioContext.currentTime);
@@ -94,7 +94,7 @@ class SoundEffects {
         oscillator.frequency.exponentialRampToValueAtTime(400, this.audioContext.currentTime + 0.15);
         oscillator.type = 'triangle';
 
-        gainNode.gain.setValueAtTime(0.08, this.audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.15, this.audioContext.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.15);
 
         oscillator.start(this.audioContext.currentTime);

@@ -38,6 +38,35 @@ const DialogueBox = ({ dialogues, onComplete }) => {
         return () => clearInterval(typeInterval);
     }, [currentIndex, currentDialogue]);
 
+    const triggerScreenEffect = () => {
+        // Screen shake effect
+        document.body.style.animation = 'screen-shake 0.5s';
+        setTimeout(() => {
+            document.body.style.animation = '';
+        }, 500);
+
+        // Flash effect
+        const flash = document.createElement('div');
+        flash.style.position = 'fixed';
+        flash.style.top = '0';
+        flash.style.left = '0';
+        flash.style.width = '100%';
+        flash.style.height = '100%';
+        flash.style.backgroundColor = 'white';
+        flash.style.opacity = '0.8';
+        flash.style.zIndex = '9999';
+        flash.style.pointerEvents = 'none';
+        document.body.appendChild(flash);
+
+        setTimeout(() => {
+            flash.style.transition = 'opacity 0.3s';
+            flash.style.opacity = '0';
+            setTimeout(() => {
+                document.body.removeChild(flash);
+            }, 300);
+        }, 50);
+    };
+
     const handleNext = () => {
         if (isTyping) {
             // Skip to full text with skip sound
@@ -47,6 +76,10 @@ const DialogueBox = ({ dialogues, onComplete }) => {
             setShowContinue(true);
         } else {
             if (currentIndex < dialogues.length - 1) {
+                // Check if advancing to final dialogue (index 2 = "Still just you, Amina")
+                if (currentIndex === 1) {
+                    triggerScreenEffect();
+                }
                 // Advance to next dialogue
                 soundEffects.playConfirm();
                 setCurrentIndex(currentIndex + 1);

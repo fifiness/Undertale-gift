@@ -2,6 +2,7 @@ import { useState } from 'react';
 import DialogueBox from './components/DialogueBox';
 import SoundToggle from './components/SoundToggle';
 import WebcamMirror from './components/WebcamMirror';
+import HeartCursor from './components/HeartCursor';
 import './App.css';
 
 // Mirror scene dialogue
@@ -33,6 +34,7 @@ function App() {
 
   return (
     <div className="app">
+      <HeartCursor />
       <WebcamMirror />
       <SoundToggle />
       {!dialogueComplete ? (

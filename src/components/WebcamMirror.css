@@ -131,6 +131,37 @@
     transform: scale(0.95);
 }
 
+/* Retro CRT scanlines overlay */
+.webcam-mirror::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(0deg,
+            rgba(0, 0, 0, 0.15) 0px,
+            rgba(0, 0, 0, 0.15) 1px,
+            transparent 1px,
+            transparent 2px);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.6;
+    animation: scanline-flicker 0.1s infinite;
+}
+
+@keyframes scanline-flicker {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
 /* Subtle vignette effect for better text readability */
 .webcam-mirror::after {
     content: '';
