@@ -1,38 +1,18 @@
-# ✨ Final Polish & Improvements
+# 🎧 Authentic Sound Restoration
 
-## 🎧 Audio Engine Overhaul
-I've completely rebuilt the sound effects to match the authentic 8-bit NES/Undertale soundscape:
+## 🎵 Sound Effects Updated
+I've tuned the synthesizer to match the **original frequencies** used in the game's soundfont!
 
-### 1. 🗣️ **Dynamic Voice Pitch**
-- **Old**: Static single-tone beep (Robot-like)
-- **New**: **Randomized pitch variance** (+/- 30Hz) on every letter.
-- **Effect**: Sounds like a real character "voice" (Sans/Papyrus style).
+### 1. 🗣️ **Narrator Voice (Text Blip)**
+- **New Sound**: High-pitched **880Hz Triangle Wave chirp**.
+- **Why**: This matches the sharp, rounded "beep" used for the default narrator text in the game (as opposed to the low square wave).
 
-### 2. 🔔 **Harmonic Confirm Sound**
-- **Old**: Simple square wave beep.
-- **New**: **Triangle wave slide** (880Hz -> 1760Hz).
-- **Effect**: A pleasant, "zippy" selection sound that feels satisfying to press.
+### 2. 🔔 **Select Sound (Confirm)**
+- **New Sound**: **Sine Wave Slide (600Hz → 1200Hz)**.
+- **Why**: This recreates the bright "Ding!" sound heard when selecting an option in the menu (MERCY, ITEM, etc.).
 
-### 3. ⏩ **Fast Skip Sound**
-- **Old**: Generic buzz.
-- **New**: **Sawtooth ramp up**.
-- **Effect**: Sounds like a fast-forward tape deck.
+### 3. ⏩ **Skip Speed**
+- **New Sound**: Fast sawtooth sweep.
+- **Why**: Mimics the "noise" of fast-forwarding text.
 
----
-
-## 🎨 Visual Polish
-
-### 1. 💛 **Interactive Soul Buttons**
-- **Settings Menu**: Hovering over any option now reveals a **Red Soul (Heart)**.
-- **Active State**: Active settings (ON) are highlighted in white/yellow.
-- **Heartbeat**: The cursor heartbeat animation is smoother (2s loop).
-
-### 2. 📺 **New Home Aesthetic**
-- **Background**: Authentic `#C4C4C4` Grey in Compact Mode.
-- **Frame**: Double-layer pixel frame (White border + Black outline).
-- **Shadow**: Pixelated drop-shadow for depth.
-
----
-
-## 🚀 Deployment
-Code is being pushed to `main` and deployed to GitHub Pages!
+Top-tier authenticity achieved! 🎮✨

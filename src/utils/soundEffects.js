@@ -16,7 +16,7 @@ class SoundEffects {
         }
     }
 
-    // Text typing sound (short blip) - Soft like "Despite everything, it's still you" scene
+    // Text typing blip (Authentic Undertale Narrator Voice)
     playTextBlip() {
         if (this.isMuted || !this.audioContext) return;
 
@@ -26,27 +26,29 @@ class SoundEffects {
         oscillator.connect(gainNode);
         gainNode.connect(this.audioContext.destination);
 
-        // Gentle, soft blip - consistent and clean (User Preference)
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(200, this.audioContext.currentTime);
+        // Narrator voice is higher pitched and 'rounder' than a raw square wave
+        oscillator.type = 'triangle';
+        // 880Hz is closer to the default text 'chirp'
+        oscillator.frequency.setValueAtTime(880, this.audioContext.currentTime);
 
-        gainNode.gain.setValueAtTime(0.08, this.audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.05);
+        // Very short, non-sustaining blip
+        gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.08);
 
         oscillator.start(this.audioContext.currentTime);
-        oscillator.stop(this.audioContext.currentTime + 0.05);
+        oscillator.stop(this.audioContext.currentTime + 0.08);
     }
 
-    // Dialogue advance sound (confirm)
+    // Dialogue advance sound (Authentic "Select" Ding)
     playConfirm() {
         if (this.isMuted || !this.audioContext) return;
         const osc = this.audioContext.createOscillator();
         const gainNode = this.audioContext.createGain();
 
-        // Harmonious selection sound (Triangle wave for "NES" feel)
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(880, this.audioContext.currentTime); // High A
-        osc.frequency.exponentialRampToValueAtTime(1760, this.audioContext.currentTime + 0.1); // Slide up
+        // The "Select" sound is a bright 'ding'
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, this.audioContext.currentTime);
+        osc.frequency.linearRampToValueAtTime(1200, this.audioContext.currentTime + 0.1); // Fast slide up
 
         gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
