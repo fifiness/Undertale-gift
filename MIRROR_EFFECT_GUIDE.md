@@ -1,5 +1,6 @@
 # 🪞 Perfect Mirror Effect - Technical Details
 
+
 ## Overview
 The webcam mirror has been optimized for a **perfect mirror experience** that replicates looking into a real mirror while maintaining UNDERTALE's aesthetic.
 
