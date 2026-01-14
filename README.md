@@ -4,6 +4,7 @@ A React-based recreation of the iconic UNDERTALE dialogue system with authentic 
 
 ## 🎮 Features
 
+
 - **Authentic UNDERTALE UI**: Black background with white-bordered dialogue box
 - **Typing Animation**: Character-by-character text reveal with blinking cursor
 - **🔊 Retro Sound Effects**: 8-bit style typing, confirm, and skip sounds (with mute/unmute button!)
