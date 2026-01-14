@@ -101,6 +101,7 @@ Modify the dialogue box dimensions in `src/components/DialogueBox.css`:
 - **Sound Toggle Button** (top-right corner): Click to mute/unmute sound effects
   - 🔊 = Sound ON
   - 🔇 = Sound OFF
+  - 
 
 **See [SOUND_EFFECTS_GUIDE.md](SOUND_EFFECTS_GUIDE.md) for detailed sound customization options!**
 
