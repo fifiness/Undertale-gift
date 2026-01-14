@@ -26,58 +26,59 @@ class SoundEffects {
         oscillator.connect(gainNode);
         gainNode.connect(this.audioContext.destination);
 
-        // Gentle, soft blip - much quieter and smoother
-        oscillator.frequency.value = 700;
-        oscillator.type = 'sine';  // Softer than square wave
+        oscillator.type = 'square'; // Changed from 'sine' to 'square' as per new code
+        // Randomize pitch slightly for "voice" effect (Undertale style)
+        // Base frequency 200Hz, variance +/- 30Hz
+        const variance = Math.random() * 60 - 30;
+        oscillator.frequency.setValueAtTime(200 + variance, this.audioContext.currentTime); // Base frequency changed from 700 to 200
 
-        // Audible but gentle volume
+        // Short, sharp envelope (duration changed from 0.03 to 0.05)
         gainNode.gain.setValueAtTime(0.08, this.audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.03);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.05); // End gain changed from 0.001 to 0.01
 
         oscillator.start(this.audioContext.currentTime);
-        oscillator.stop(this.audioContext.currentTime + 0.03);
+        oscillator.stop(this.audioContext.currentTime + 0.05); // Duration changed from 0.03 to 0.05
     }
 
     // Dialogue advance sound (confirm)
     playConfirm() {
         if (this.isMuted || !this.audioContext) return;
-
-        const oscillator = this.audioContext.createOscillator();
+        const osc = this.audioContext.createOscillator();
         const gainNode = this.audioContext.createGain();
 
-        oscillator.connect(gainNode);
-        gainNode.connect(this.audioContext.destination);
+        // Harmonious selection sound (Triangle wave for "NES" feel)
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(880, this.audioContext.currentTime); // High A
+        osc.frequency.exponentialRampToValueAtTime(1760, this.audioContext.currentTime + 0.1); // Slide up
 
-        oscillator.frequency.setValueAtTime(600, this.audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(800, this.audioContext.currentTime + 0.1);
-        oscillator.type = 'square';
-
-        gainNode.gain.setValueAtTime(0.15, this.audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
 
-        oscillator.start(this.audioContext.currentTime);
-        oscillator.stop(this.audioContext.currentTime + 0.1);
+        osc.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+
+        osc.start();
+        osc.stop(this.audioContext.currentTime + 0.1);
     }
 
     // Text skip sound (faster advance)
     playSkip() {
         if (this.isMuted || !this.audioContext) return;
-
-        const oscillator = this.audioContext.createOscillator();
+        const osc = this.audioContext.createOscillator();
         const gainNode = this.audioContext.createGain();
 
-        oscillator.connect(gainNode);
+        osc.type = 'sawtooth'; // Buzzer-like skip sound
+        osc.frequency.setValueAtTime(400, this.audioContext.currentTime);
+        osc.frequency.linearRampToValueAtTime(600, this.audioContext.currentTime + 0.1);
+
+        gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
+
+        osc.connect(gainNode);
         gainNode.connect(this.audioContext.destination);
 
-        oscillator.frequency.setValueAtTime(1000, this.audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(1200, this.audioContext.currentTime + 0.08);
-        oscillator.type = 'square';
-
-        gainNode.gain.setValueAtTime(0.12, this.audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.08);
-
-        oscillator.start(this.audioContext.currentTime);
-        oscillator.stop(this.audioContext.currentTime + 0.08);
+        osc.start();
+        osc.stop(this.audioContext.currentTime + 0.1);
     }
 
     // Dialogue end sound
