@@ -6,6 +6,7 @@ import HeartCursor from './components/HeartCursor';
 import SideMenu from './components/SideMenu';
 import ItemMenu from './components/ItemMenu';
 import './App.css';
+import ReactAudioPlayer from 'react-audio-player';
 
 // Mirror scene dialogue
 const sampleDialogues = [
@@ -35,6 +36,8 @@ function App() {
   const [compactBackground, setCompactBackground] = useState('black'); // 'grey' or 'black'
   const [isItemMenuOpen, setIsItemMenuOpen] = useState(false);
   const [showDialogue, setShowDialogue] = useState(false);
+  const [isMusicEnabled, setIsMusicEnabled] = useState(true);
+  const [musicVolume, setMusicVolume] = useState(0.3);
 
   const handleDialogueComplete = () => {
     setDialogueComplete(true);
@@ -49,6 +52,13 @@ function App() {
   const toggleShakeEffect = () => setIsShakeEnabled(!isShakeEnabled);
   const toggleCompactBackground = () => {
     setCompactBackground(prev => prev === 'grey' ? 'black' : 'grey');
+  };
+  const toggleMusic = () => setIsMusicEnabled(!isMusicEnabled);
+  const increaseVolume = () => {
+    if (musicVolume < 1) setMusicVolume(prev => Math.min(1, prev + 0.1));
+  };
+  const decreaseVolume = () => {
+    if (musicVolume > 0) setMusicVolume(prev => Math.max(0, prev - 0.1));
   };
 
   const openItems = () => setIsItemMenuOpen(true);
@@ -95,6 +105,95 @@ function App() {
           <p className="restart-hint">Restarting...</p>
         </div>
       )}
+
+      {/* Music Player */}
+      <div className="music-player" style={{
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        zIndex: 1000,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        padding: '10px',
+        borderRadius: '10px',
+        color: 'white',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        fontSize: '14px',
+        backdropFilter: 'blur(5px)'
+      }}>
+        <div style={{ fontSize: '20px' }}>
+          {isMusicEnabled ? '🎵' : '🔇'}
+        </div>
+        
+        <button 
+          onClick={toggleMusic}
+          style={{
+            background: isMusicEnabled ? '#4CAF50' : '#f44336',
+            border: 'none',
+            color: 'white',
+            padding: '5px 10px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '12px',
+            fontWeight: 'bold'
+          }}
+        >
+          {isMusicEnabled ? 'MUTE' : 'UNMUTE'}
+        </button>
+        
+        <button 
+          onClick={decreaseVolume}
+          disabled={!isMusicEnabled}
+          style={{
+            background: 'none',
+            border: '1px solid white',
+            color: 'white',
+            padding: '5px 8px',
+            borderRadius: '5px',
+            cursor: isMusicEnabled ? 'pointer' : 'not-allowed',
+            opacity: isMusicEnabled ? 1 : 0.5,
+            fontSize: '12px'
+          }}
+        >
+          ➖
+        </button>
+        
+        <div style={{ minWidth: '60px', textAlign: 'center' }}>
+          <div style={{ fontSize: '11px', opacity: 0.8 }}>VOLUME</div>
+          <div>{Math.round(musicVolume * 100)}%</div>
+        </div>
+        
+        <button 
+          onClick={increaseVolume}
+          disabled={!isMusicEnabled}
+          style={{
+            background: 'none',
+            border: '1px solid white',
+            color: 'white',
+            padding: '5px 8px',
+            borderRadius: '5px',
+            cursor: isMusicEnabled ? 'pointer' : 'not-allowed',
+            opacity: isMusicEnabled ? 1 : 0.5,
+            fontSize: '12px'
+          }}
+        >
+          ➕
+        </button>
+        
+        {isMusicEnabled && (
+          <ReactAudioPlayer
+            src="/audio/background.m4a"
+            autoPlay
+            loop
+            volume={musicVolume}
+            controls={false}
+            style={{ display: 'none' }}
+          />
+        )}
+      </div>
+      {/* End Music Player */}
+      
     </div>
   );
 }
