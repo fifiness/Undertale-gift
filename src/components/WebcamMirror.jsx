@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './WebcamMirror.css';
 
-const WebcamMirror = () => {
+const WebcamMirror = ({ isCompact }) => {
     const videoRef = useRef(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -74,7 +74,7 @@ const WebcamMirror = () => {
     }, []);
 
     return (
-        <div className="webcam-mirror">
+        <div className={`webcam-mirror ${isCompact ? 'compact' : ''}`}>
             {!started && !loading && !error && !cancelled && (
                 <div className="webcam-prompt">
                     <p>* Look into the mirror...</p>

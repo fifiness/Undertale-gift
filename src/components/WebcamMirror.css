@@ -10,7 +10,46 @@
     align-items: center;
     justify-content: center;
     background-color: var(--bg-black);
+    transition: all 0.5s ease;
+    /* Smooth transition between modes */
 }
+
+/* Compact Mode Styles */
+.webcam-mirror.compact {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -80%);
+    /* Move up to make room for dialogue */
+    width: 60%;
+    height: 50%;
+    /* Aspect ratio 4:3 ish */
+    max-width: 640px;
+    max-height: 480px;
+    border: 6px solid #fff;
+    box-shadow: 0 0 0 4px #000, 0 0 20px rgba(0, 0, 0, 0.5);
+    background-color: #000;
+    z-index: 5;
+    /* Below dialogue but visible */
+}
+
+.webcam-mirror.compact .mirror-video {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform: scaleX(-1);
+    /* Keep mirror flip */
+    filter: brightness(0.9) contrast(1.1);
+    /* Brighter in compact mode */
+}
+
+.webcam-mirror.compact::before {
+    /* Adjust scanlines for compact container */
+    background-size: 100% 100%;
+}
+
 
 .mirror-video {
     position: absolute;

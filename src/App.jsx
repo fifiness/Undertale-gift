@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import DialogueBox from './components/DialogueBox';
-import SoundToggle from './components/SoundToggle';
+import SettingsPanel from './components/SettingsPanel'; // Replaces SoundToggle
 import WebcamMirror from './components/WebcamMirror';
 import HeartCursor from './components/HeartCursor';
 import './App.css';
@@ -23,6 +23,7 @@ const sampleDialogues = [
 
 function App() {
   const [dialogueComplete, setDialogueComplete] = useState(false);
+  const [isCompact, setIsCompact] = useState(false);
 
   const handleDialogueComplete = () => {
     setDialogueComplete(true);
@@ -32,11 +33,19 @@ function App() {
     }, 2000);
   };
 
+  const toggleCompactMode = () => {
+    setIsCompact(!isCompact);
+  };
+
   return (
-    <div className="app">
+    <div className={`app ${isCompact ? 'compact-layout' : ''}`}>
       <HeartCursor />
-      <WebcamMirror />
-      <SoundToggle />
+      <WebcamMirror isCompact={isCompact} />
+      <SettingsPanel
+        isCompact={isCompact}
+        onToggleCompact={toggleCompactMode}
+      />
+
       {!dialogueComplete ? (
         <DialogueBox
           dialogues={sampleDialogues}
