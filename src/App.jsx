@@ -1,12 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import DialogueBox from './components/DialogueBox';
-import SettingsPanel from './components/SettingsPanel'; // Replaces SoundToggle
+import SettingsPanel from './components/SettingsPanel';
 import WebcamMirror from './components/WebcamMirror';
 import HeartCursor from './components/HeartCursor';
 import SideMenu from './components/SideMenu';
 import ItemMenu from './components/ItemMenu';
 import './App.css';
-import ReactAudioPlayer from 'react-audio-player';
 
 // Mirror scene dialogue
 const sampleDialogues = [
@@ -33,15 +32,49 @@ function App() {
   const [isCompact, setIsCompact] = useState(true);
   const [isHeartEnabled, setIsHeartEnabled] = useState(false);
   const [isShakeEnabled, setIsShakeEnabled] = useState(true);
-  const [compactBackground, setCompactBackground] = useState('black'); // 'grey' or 'black'
+  const [compactBackground, setCompactBackground] = useState('black');
   const [isItemMenuOpen, setIsItemMenuOpen] = useState(false);
   const [showDialogue, setShowDialogue] = useState(false);
   const [isMusicEnabled, setIsMusicEnabled] = useState(true);
   const [musicVolume, setMusicVolume] = useState(0.3);
+  
+  // Create audio reference
+  const audioRef = useRef(null);
+
+  // Initialize audio
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = musicVolume;
+      if (isMusicEnabled) {
+        audioRef.current.play().catch(error => {
+          console.log("Autoplay prevented:", error);
+        });
+      }
+    }
+  }, []);
+
+  // Update volume when changed
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = musicVolume;
+    }
+  }, [musicVolume]);
+
+  // Play/pause when toggle changed
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isMusicEnabled) {
+        audioRef.current.play().catch(error => {
+          console.log("Autoplay error, user needs to interact first");
+        });
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [isMusicEnabled]);
 
   const handleDialogueComplete = () => {
     setDialogueComplete(true);
-    // Reset after a delay to allow replay
     setTimeout(() => {
       setDialogueComplete(false);
     }, 2000);
@@ -66,6 +99,10 @@ function App() {
 
   const handleMirrorInteraction = () => {
     setShowDialogue(true);
+    // Try to play audio on first user interaction
+    if (audioRef.current && isMusicEnabled) {
+      audioRef.current.play().catch(e => console.log("Playback error:", e));
+    }
   };
 
   return (
@@ -106,7 +143,15 @@ function App() {
         </div>
       )}
 
-      {/* Music Player */}
+      {/* Hidden audio element */}
+      <audio
+        ref={audioRef}
+        src="/audio/background.m4a"
+        loop
+        style={{ display: 'none' }}
+      />
+
+      {/* Music Player Controls */}
       <div className="music-player" style={{
         position: 'fixed',
         bottom: '20px',
@@ -180,17 +225,6 @@ function App() {
         >
           ➕
         </button>
-        
-        {isMusicEnabled && (
-          <ReactAudioPlayer
-            src="/audio/background.m4a"
-            autoPlay
-            loop
-            volume={musicVolume}
-            controls={false}
-            style={{ display: 'none' }}
-          />
-        )}
       </div>
       {/* End Music Player */}
       
