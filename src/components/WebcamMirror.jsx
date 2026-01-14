@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './WebcamMirror.css';
 
-const WebcamMirror = ({ isCompact }) => {
+const WebcamMirror = ({ isCompact, onInteractionComplete }) => {
     const videoRef = useRef(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -48,6 +48,7 @@ const WebcamMirror = ({ isCompact }) => {
 
                 setLoading(false);
                 setStarted(true);
+                if (onInteractionComplete) onInteractionComplete();
             }
         } catch (err) {
             console.error('Error accessing webcam:', err);
@@ -73,6 +74,7 @@ const WebcamMirror = ({ isCompact }) => {
         setError(null);
         setLoading(false);
         setStarted(false);
+        if (onInteractionComplete) onInteractionComplete();
     };
 
     useEffect(() => {

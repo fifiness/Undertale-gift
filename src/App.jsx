@@ -3,13 +3,15 @@ import DialogueBox from './components/DialogueBox';
 import SettingsPanel from './components/SettingsPanel'; // Replaces SoundToggle
 import WebcamMirror from './components/WebcamMirror';
 import HeartCursor from './components/HeartCursor';
+import SideMenu from './components/SideMenu';
+import ItemMenu from './components/ItemMenu';
 import './App.css';
 
 // Mirror scene dialogue
 const sampleDialogues = [
   {
     speaker: '',
-    text: "..."
+    text: "* ..."
   },
   {
     speaker: '',
@@ -27,9 +29,12 @@ const sampleDialogues = [
 
 function App() {
   const [dialogueComplete, setDialogueComplete] = useState(false);
-  const [isCompact, setIsCompact] = useState(false);
-  const [isHeartEnabled, setIsHeartEnabled] = useState(true);
+  const [isCompact, setIsCompact] = useState(true);
+  const [isHeartEnabled, setIsHeartEnabled] = useState(false);
   const [isShakeEnabled, setIsShakeEnabled] = useState(true);
+  const [compactBackground, setCompactBackground] = useState('black'); // 'grey' or 'black'
+  const [isItemMenuOpen, setIsItemMenuOpen] = useState(false);
+  const [showDialogue, setShowDialogue] = useState(false);
 
   const handleDialogueComplete = () => {
     setDialogueComplete(true);
@@ -42,11 +47,29 @@ function App() {
   const toggleCompactMode = () => setIsCompact(!isCompact);
   const toggleHeartCursor = () => setIsHeartEnabled(!isHeartEnabled);
   const toggleShakeEffect = () => setIsShakeEnabled(!isShakeEnabled);
+  const toggleCompactBackground = () => {
+    setCompactBackground(prev => prev === 'grey' ? 'black' : 'grey');
+  };
+
+  const openItems = () => setIsItemMenuOpen(true);
+  const closeItems = () => setIsItemMenuOpen(false);
+
+  const handleMirrorInteraction = () => {
+    setShowDialogue(true);
+  };
 
   return (
-    <div className={`app ${isCompact ? 'compact-layout' : ''}`}>
+    <div className={`app ${isCompact ? 'compact-layout' : ''} ${isCompact ? `bg-${compactBackground}` : ''}`}>
       {isHeartEnabled && <HeartCursor />}
-      <WebcamMirror isCompact={isCompact} />
+
+      <div className="game-container">
+        <SideMenu onItemsClick={openItems} />
+
+        <WebcamMirror isCompact={isCompact} onInteractionComplete={handleMirrorInteraction} />
+
+        {isItemMenuOpen && <ItemMenu onClose={closeItems} />}
+      </div>
+
       <SettingsPanel
         isCompact={isCompact}
         onToggleCompact={toggleCompactMode}
@@ -54,15 +77,19 @@ function App() {
         onToggleHeart={toggleHeartCursor}
         isShakeEnabled={isShakeEnabled}
         onToggleShake={toggleShakeEffect}
+        compactBackground={compactBackground}
+        onToggleCompactBackground={toggleCompactBackground}
       />
 
-      {!dialogueComplete ? (
+      {showDialogue && !dialogueComplete && (
         <DialogueBox
           dialogues={sampleDialogues}
           onComplete={handleDialogueComplete}
           enableShake={isShakeEnabled}
         />
-      ) : (
+      )}
+
+      {showDialogue && dialogueComplete && (
         <div className="complete-message">
           <p>* Dialogue Complete</p>
           <p className="restart-hint">Restarting...</p>

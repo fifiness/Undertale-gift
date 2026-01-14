@@ -20,15 +20,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -70%);
-    /* Adjusted to center it better with larger size */
-    width: 80%;
-    /* Increased from 60% */
-    height: 60%;
-    /* Increased from 50% */
-    max-width: 1000px;
-    /* Increased from 640px */
-    max-height: 700px;
-    /* Increased from 480px */
+    /* Centered in the screen */
+    width: 60%;
+    /* Reduced to make space for side UI */
+    height: 50%;
+    /* Maintain aspect ratio */
+    max-width: 800px;
+    max-height: 600px;
     /* Retro Pixel Frame */
     border: 8px solid #E8E8E8;
     /* The main frame color */

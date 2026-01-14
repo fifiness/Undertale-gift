@@ -20,6 +20,8 @@ body {
   margin: 0;
   font-family: 'Press Start 2P', cursive;
   background-color: var(--bg-black);
+  transition: background-color 0.5s ease;
+  animation: flicker 0.1s infinite;
   color: var(--text-color);
   overflow: hidden;
   image-rendering: pixelated;
@@ -62,7 +64,97 @@ img {
   color: var(--bg-black);
 }
 
+/* Retro CRT scanlines overlay - Animated for premium feel */
+.app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.1) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 1000;
+  animation: scanline 10s linear infinite;
+  opacity: 0.3;
+}
+
+/* Moving scanline highlight */
+.app::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(255, 255, 255, 0.03) 50%,
+      transparent 100%);
+  background-size: 100% 100px;
+  pointer-events: none;
+  z-index: 1001;
+  animation: scanline-move 8s linear infinite;
+}
+
 /* Animations */
+/* CRT Screen Flicker */
+@keyframes flicker {
+  0% {
+    opacity: 0.98;
+  }
+
+  5% {
+    opacity: 0.95;
+  }
+
+  10% {
+    opacity: 0.99;
+  }
+
+  15% {
+    opacity: 0.96;
+  }
+
+  20% {
+    opacity: 0.98;
+  }
+
+  25% {
+    opacity: 0.99;
+  }
+
+  30% {
+    opacity: 0.97;
+  }
+
+  100% {
+    opacity: 0.99;
+  }
+}
+
+@keyframes scanline {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 0 100%;
+  }
+}
+
+@keyframes scanline-move {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(100%);
+  }
+}
+
 @keyframes blink {
 
   0%,

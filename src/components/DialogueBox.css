@@ -20,15 +20,29 @@
     background-color: var(--text-box-bg);
     border: 6px solid var(--text-box-border);
     padding: 20px 30px;
+    z-index: 20;
     box-shadow:
         0 0 0 2px var(--bg-black),
         0 0 0 8px var(--text-box-border),
-        0 8px 24px rgba(0, 0, 0, 0.8);
+        0 8px 32px rgba(0, 0, 0, 0.9);
     display: flex;
     flex-direction: column;
     gap: 12px;
     cursor: pointer;
-    transition: transform 0.1s ease;
+    transition: all 0.2s ease;
+    animation: simple-pulse 4s infinite ease-in-out;
+}
+
+@keyframes simple-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.005);
+    }
 }
 
 .dialogue-box:hover {

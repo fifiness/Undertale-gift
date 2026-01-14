@@ -1,56 +1,64 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './HeartCursor.css';
 
 const HeartCursor = () => {
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const cursorRef = useRef(null);
+    const mouseRef = useRef({ x: 0, y: 0 });
+    const rafRef = useRef(null);
     const [isHovering, setIsHovering] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
-        const updatePosition = (e) => {
-            setPosition({ x: e.clientX, y: e.clientY });
+        const updateCursor = () => {
+            if (cursorRef.current) {
+                const { x, y } = mouseRef.current;
+                cursorRef.current.style.transform = `translate(${x}px, ${y}px)`;
+            }
+            rafRef.current = requestAnimationFrame(updateCursor);
+        };
+
+        const onMouseMove = (e) => {
+            mouseRef.current = { x: e.clientX, y: e.clientY };
             setIsVisible(true);
 
-            // Check if hovering over clickable elements
+            // Optimization: Throttled hover check or simple check - doing simple check here
+            // purely for DOM lookups, but relying on React state only when value changes.
             const target = e.target;
             const isClickable =
                 target.tagName === 'BUTTON' ||
                 target.tagName === 'A' ||
+                target.closest('button') || // Handle nested elements in buttons
                 target.classList.contains('dialogue-box') ||
-                target.classList.contains('start-mirror-btn') ||
-                target.classList.contains('cancel-btn') ||
-                target.classList.contains('retry-btn') ||
-                target.classList.contains('sound-toggle') ||
                 target.onclick ||
-                target.style.cursor === 'pointer' ||
                 window.getComputedStyle(target).cursor === 'pointer';
 
-            setIsHovering(isClickable);
+            setIsHovering(!!isClickable);
         };
 
-        const handleMouseLeave = () => {
-            setIsVisible(false);
-        };
+        const onMouseLeave = () => setIsVisible(false);
+        const onMouseEnter = () => setIsVisible(true);
 
-        const handleMouseEnter = () => {
-            setIsVisible(true);
-        };
-
-        // Hide default cursor using CSS class
+        // Hide default cursor
         document.body.classList.add('custom-cursor-enabled');
 
-        window.addEventListener('mousemove', updatePosition);
-        document.addEventListener('mouseleave', handleMouseLeave);
-        document.addEventListener('mouseenter', handleMouseEnter);
+        window.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseleave', onMouseLeave);
+        document.addEventListener('mouseenter', onMouseEnter);
+
+        // Start animation loop
+        rafRef.current = requestAnimationFrame(updateCursor);
 
         return () => {
-            // Restore default cursor
             document.body.classList.remove('custom-cursor-enabled');
             document.body.style.cursor = '';
 
-            window.removeEventListener('mousemove', updatePosition);
-            document.removeEventListener('mouseleave', handleMouseLeave);
-            document.removeEventListener('mouseenter', handleMouseEnter);
+            window.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseleave', onMouseLeave);
+            document.removeEventListener('mouseenter', onMouseEnter);
+
+            if (rafRef.current) {
+                cancelAnimationFrame(rafRef.current);
+            }
         };
     }, []);
 
@@ -58,10 +66,12 @@ const HeartCursor = () => {
 
     return (
         <div
+            ref={cursorRef}
             className={`heart-cursor ${isHovering ? 'hovering' : ''}`}
             style={{
-                left: `${position.x}px`,
-                top: `${position.y}px`,
+                top: 0,
+                left: 0,
+                willChange: 'transform' // Hint for GPU optimization
             }}
         />
     );

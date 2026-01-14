@@ -76,8 +76,8 @@ const DialogueBox = ({ dialogues, onComplete, enableShake = true }) => {
             setShowContinue(true);
         } else {
             if (currentIndex < dialogues.length - 1) {
-                // Check if advancing to final dialogue (index 2 = "Still just you, Amina")
-                if (currentIndex === 1 && enableShake) {
+                // Check if advancing to final dialogue (index 3 = "Still just you, Amina")
+                if (currentIndex === 2 && enableShake) {
                     triggerScreenEffect();
                 }
                 // Advance to next dialogue

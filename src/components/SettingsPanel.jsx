@@ -5,7 +5,8 @@ import './SettingsPanel.css';
 const SettingsPanel = ({
     isCompact, onToggleCompact,
     isHeartEnabled, onToggleHeart,
-    isShakeEnabled, onToggleShake
+    isShakeEnabled, onToggleShake,
+    compactBackground, onToggleCompactBackground
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
@@ -57,6 +58,18 @@ const SettingsPanel = ({
                             {isCompact ? 'Compact 🖼️' : 'Full 🌌'}
                         </button>
                     </div>
+
+                    {isCompact && (
+                        <div className="setting-option animated-fade-in">
+                            <span className="setting-label">Compact BG</span>
+                            <button
+                                className="setting-toggle"
+                                onClick={onToggleCompactBackground}
+                            >
+                                {compactBackground === 'grey' ? 'Grey ⬜' : 'Black ⬛'}
+                            </button>
+                        </div>
+                    )}
 
                     <div className="setting-option">
                         <span className="setting-label">Heart Cursor</span>
