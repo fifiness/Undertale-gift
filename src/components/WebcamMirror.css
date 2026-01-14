@@ -23,10 +23,11 @@
     /* Perfect mirror flip - horizontally flip the video */
     transform: translate(-50%, -50%) scaleX(-1);
     object-fit: cover;
-    /* Optimize for smooth playback */
-    will-change: transform;
-    /* Slightly darker for better text visibility without losing detail */
-    filter: brightness(0.65) contrast(1.15) saturate(1.1);
+    /* GPU acceleration for better performance */
+    will-change: auto;
+    transform: translate(-50%, -50%) scaleX(-1);
+    /* Lighter filters for better performance */
+    filter: brightness(0.7) contrast(1.1);
 }
 
 .webcam-prompt,
@@ -131,7 +132,7 @@
     transform: scale(0.95);
 }
 
-/* Retro CRT scanlines overlay */
+/* Retro CRT scanlines overlay - STATIC for better performance */
 .webcam-mirror::before {
     content: '';
     position: absolute;
@@ -139,27 +140,16 @@
     left: 0;
     right: 0;
     bottom: 0;
+    /* Simplified scanlines without animation for performance */
     background: repeating-linear-gradient(0deg,
-            rgba(0, 0, 0, 0.15) 0px,
-            rgba(0, 0, 0, 0.15) 1px,
+            rgba(0, 0, 0, 0.1) 0px,
+            rgba(0, 0, 0, 0.1) 1px,
             transparent 1px,
             transparent 2px);
     pointer-events: none;
     z-index: 2;
-    opacity: 0.6;
-    animation: scanline-flicker 0.1s infinite;
-}
-
-@keyframes scanline-flicker {
-
-    0%,
-    100% {
-        opacity: 0.6;
-    }
-
-    50% {
-        opacity: 0.5;
-    }
+    opacity: 0.5;
+    /* Removed animation for better performance */
 }
 
 /* Subtle vignette effect for better text readability */

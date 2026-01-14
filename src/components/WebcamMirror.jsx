@@ -14,13 +14,13 @@ const WebcamMirror = () => {
             setError(null);
             setCancelled(false);
 
-            // Request the highest quality video available for perfect mirror effect
+            // Balanced quality for smooth performance
             const stream = await navigator.mediaDevices.getUserMedia({
                 video: {
-                    width: { ideal: 1920, min: 1280 },
-                    height: { ideal: 1080, min: 720 },
+                    width: { ideal: 1280, min: 640 },
+                    height: { ideal: 720, min: 480 },
                     facingMode: 'user',
-                    frameRate: { ideal: 30 }
+                    frameRate: { ideal: 24, max: 30 }
                 },
                 audio: false
             });
