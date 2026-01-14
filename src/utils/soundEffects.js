@@ -26,18 +26,15 @@ class SoundEffects {
         oscillator.connect(gainNode);
         gainNode.connect(this.audioContext.destination);
 
-        oscillator.type = 'square'; // Changed from 'sine' to 'square' as per new code
-        // Randomize pitch slightly for "voice" effect (Undertale style)
-        // Base frequency 200Hz, variance +/- 30Hz
-        const variance = Math.random() * 60 - 30;
-        oscillator.frequency.setValueAtTime(200 + variance, this.audioContext.currentTime); // Base frequency changed from 700 to 200
+        // Gentle, soft blip - consistent and clean (User Preference)
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(200, this.audioContext.currentTime);
 
-        // Short, sharp envelope (duration changed from 0.03 to 0.05)
         gainNode.gain.setValueAtTime(0.08, this.audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.05); // End gain changed from 0.001 to 0.01
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.05);
 
         oscillator.start(this.audioContext.currentTime);
-        oscillator.stop(this.audioContext.currentTime + 0.05); // Duration changed from 0.03 to 0.05
+        oscillator.stop(this.audioContext.currentTime + 0.05);
     }
 
     // Dialogue advance sound (confirm)
