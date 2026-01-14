@@ -1,0 +1,40 @@
+.sound-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 3px solid var(--ui-white);
+    color: var(--ui-white);
+    padding: 12px 16px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 1000;
+    font-family: inherit;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.sound-toggle:hover {
+    background-color: var(--ui-white);
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+}
+
+.sound-toggle:active {
+    transform: scale(0.95);
+}
+
+.sound-toggle:focus {
+    outline: 2px solid var(--selection-yellow);
+    outline-offset: 2px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .sound-toggle {
+        top: 10px;
+        right: 10px;
+        padding: 10px 14px;
+        font-size: 18px;
+    }
+}
