@@ -16,7 +16,7 @@ const sampleDialogues = [
   },
   {
     speaker: '',
-    text: '* Still just you, amina'
+    text: '* Still just you, Amina'
   }
 ];
 

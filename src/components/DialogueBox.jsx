@@ -71,7 +71,7 @@ const DialogueBox = ({ dialogues, onComplete }) => {
 
     return (
         <div className="dialogue-container">
-            <div className="dialogue-box">
+            <div className="dialogue-box" onClick={handleNext}>
                 <div className="dialogue-header">
                     {currentDialogue.speaker && (
                         <div className="speaker-name">* {currentDialogue.speaker}</div>

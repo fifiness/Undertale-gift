@@ -1,18 +1,21 @@
 .dialogue-container {
+    position: fixed !important;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 800px;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    gap: 20px;
-    z-index: 10;
 }
 
 .dialogue-box {
     position: relative;
-    width: 600px;
+    width: 100%;
+    max-width: 600px;
     min-height: 180px;
     background-color: var(--text-box-bg);
     border: 6px solid var(--text-box-border);
@@ -24,6 +27,16 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.dialogue-box:hover {
+    transform: scale(1.01);
+}
+
+.dialogue-box:active {
+    transform: scale(0.99);
 }
 
 .dialogue-header {
@@ -77,18 +90,14 @@
     animation: blink 1s infinite;
 }
 
-.controls-hint {
-    font-size: 10px;
-    color: rgba(255, 255, 255, 0.5);
-    text-align: center;
-    letter-spacing: 1px;
-    padding: 10px;
-}
-
 /* Responsive design */
 @media (max-width: 768px) {
-    .dialogue-box {
+    .dialogue-container {
         width: 90%;
+        bottom: 5%;
+    }
+
+    .dialogue-box {
         min-height: 150px;
         padding: 15px 20px;
     }
@@ -99,10 +108,6 @@
 
     .speaker-name {
         font-size: 12px;
-    }
-
-    .controls-hint {
-        font-size: 8px;
     }
 }
 

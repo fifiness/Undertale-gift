@@ -6,32 +6,61 @@ const WebcamMirror = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [started, setStarted] = useState(false);
+    const [cancelled, setCancelled] = useState(false);
 
     const startWebcam = async () => {
         try {
             setLoading(true);
             setError(null);
+            setCancelled(false);
 
+            // Request the highest quality video available for perfect mirror effect
             const stream = await navigator.mediaDevices.getUserMedia({
                 video: {
-                    width: { ideal: 1920 },
-                    height: { ideal: 1080 },
-                    facingMode: 'user'
+                    width: { ideal: 1920, min: 1280 },
+                    height: { ideal: 1080, min: 720 },
+                    facingMode: 'user',
+                    frameRate: { ideal: 30 }
                 },
                 audio: false
             });
 
             if (videoRef.current) {
                 videoRef.current.srcObject = stream;
+
+                // Wait for video to be ready
+                videoRef.current.onloadedmetadata = () => {
+                    videoRef.current.play().catch(err => {
+                        console.error('Error playing video:', err);
+                    });
+                };
+
                 setLoading(false);
                 setStarted(true);
             }
         } catch (err) {
             console.error('Error accessing webcam:', err);
-            setError('Unable to access webcam. Please grant camera permissions.');
+
+            let errorMessage = 'Unable to access webcam. Please grant camera permissions.';
+            if (err.name === 'NotAllowedError') {
+                errorMessage = 'Camera permission denied. Please allow camera access.';
+            } else if (err.name === 'NotFoundError') {
+                errorMessage = 'No camera found. Please connect a camera.';
+            } else if (err.name === 'NotReadableError') {
+                errorMessage = 'Camera is already in use by another application.';
+            }
+
+            setError(errorMessage);
             setLoading(false);
             setStarted(false);
         }
+    };
+
+    const handleCancel = () => {
+        setCancelled(true);
+        setError(null);
+        setLoading(false);
+        setStarted(false);
     };
 
     useEffect(() => {
@@ -46,12 +75,17 @@ const WebcamMirror = () => {
 
     return (
         <div className="webcam-mirror">
-            {!started && !loading && !error && (
+            {!started && !loading && !error && !cancelled && (
                 <div className="webcam-prompt">
                     <p>* Look into the mirror...</p>
-                    <button className="start-mirror-btn" onClick={startWebcam}>
-                        Start Mirror
-                    </button>
+                    <div className="button-group">
+                        <button className="start-mirror-btn" onClick={startWebcam}>
+                            Start Mirror
+                        </button>
+                        <button className="cancel-btn" onClick={handleCancel}>
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             )}
 
@@ -64,9 +98,14 @@ const WebcamMirror = () => {
             {error && (
                 <div className="webcam-error">
                     <p>* {error}</p>
-                    <button className="retry-btn" onClick={startWebcam}>
-                        Try Again
-                    </button>
+                    <div className="button-group">
+                        <button className="retry-btn" onClick={startWebcam}>
+                            Try Again
+                        </button>
+                        <button className="cancel-btn" onClick={handleCancel}>
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             )}
 

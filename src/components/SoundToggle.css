@@ -1,5 +1,5 @@
 .sound-toggle {
-    position: fixed;
+    position: fixed !important;
     top: 20px;
     right: 20px;
     background-color: rgba(0, 0, 0, 0.8);
