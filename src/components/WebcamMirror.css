@@ -19,13 +19,16 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -80%);
-    /* Move up to make room for dialogue */
-    width: 60%;
-    height: 50%;
-    /* Aspect ratio 4:3 ish */
-    max-width: 640px;
-    max-height: 480px;
+    transform: translate(-50%, -70%);
+    /* Adjusted to center it better with larger size */
+    width: 80%;
+    /* Increased from 60% */
+    height: 60%;
+    /* Increased from 50% */
+    max-width: 1000px;
+    /* Increased from 640px */
+    max-height: 700px;
+    /* Increased from 480px */
     border: 6px solid #fff;
     box-shadow: 0 0 0 4px #000, 0 0 20px rgba(0, 0, 0, 0.5);
     background-color: #000;
