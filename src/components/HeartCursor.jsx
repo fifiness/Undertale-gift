@@ -36,14 +36,18 @@ const HeartCursor = () => {
             setIsVisible(true);
         };
 
-        // Hide default cursor immediately
-        document.body.style.cursor = 'none';
+        // Hide default cursor using CSS class
+        document.body.classList.add('custom-cursor-enabled');
 
         window.addEventListener('mousemove', updatePosition);
         document.addEventListener('mouseleave', handleMouseLeave);
         document.addEventListener('mouseenter', handleMouseEnter);
 
         return () => {
+            // Restore default cursor
+            document.body.classList.remove('custom-cursor-enabled');
+            document.body.style.cursor = '';
+
             window.removeEventListener('mousemove', updatePosition);
             document.removeEventListener('mouseleave', handleMouseLeave);
             document.removeEventListener('mouseenter', handleMouseEnter);

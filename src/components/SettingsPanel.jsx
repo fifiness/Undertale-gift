@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react';
 import soundEffects from '../utils/soundEffects';
 import './SettingsPanel.css';
 
-const SettingsPanel = ({ isCompact, onToggleCompact }) => {
+const SettingsPanel = ({
+    isCompact, onToggleCompact,
+    isHeartEnabled, onToggleHeart,
+    isShakeEnabled, onToggleShake
+}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
 
@@ -51,6 +55,26 @@ const SettingsPanel = ({ isCompact, onToggleCompact }) => {
                             onClick={onToggleCompact}
                         >
                             {isCompact ? 'Compact 🖼️' : 'Full 🌌'}
+                        </button>
+                    </div>
+
+                    <div className="setting-option">
+                        <span className="setting-label">Heart Cursor</span>
+                        <button
+                            className="setting-toggle"
+                            onClick={onToggleHeart}
+                        >
+                            {isHeartEnabled ? 'ON ❤️' : 'OFF ↗️'}
+                        </button>
+                    </div>
+
+                    <div className="setting-option">
+                        <span className="setting-label">Shake FX</span>
+                        <button
+                            className="setting-toggle"
+                            onClick={onToggleShake}
+                        >
+                            {isShakeEnabled ? 'ON 💥' : 'OFF 🛑'}
                         </button>
                     </div>
 

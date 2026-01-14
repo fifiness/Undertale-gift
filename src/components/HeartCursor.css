@@ -1,21 +1,21 @@
-/* Red heart cursor - UNDERTALE Soul - OPTIMIZED FOR PERFORMANCE */
-body,
-html,
-#root {
+/* Cursor hiding - Only when enabled */
+body.custom-cursor-enabled,
+body.custom-cursor-enabled html,
+body.custom-cursor-enabled #root,
+body.custom-cursor-enabled * {
     cursor: none !important;
 }
 
 /* Custom heart cursor */
 .heart-cursor {
+    /* ... existing styles ... */
     position: fixed !important;
     width: 20px;
     height: 20px;
     pointer-events: none;
     z-index: 99999 !important;
-    /* Don't use transform translate, it causes positioning issues */
     margin-left: -10px;
     margin-top: -10px;
-    /* GPU acceleration for smooth movement */
     will-change: left, top;
     transform: translateZ(0);
 }
@@ -66,23 +66,4 @@ html,
     }
 }
 
-/* Hide default cursor on clickable elements */
-button,
-a,
-.dialogue-box,
-.webcam-prompt,
-.webcam-error,
-.start-mirror-btn,
-.cancel-btn,
-.retry-btn,
-.sound-toggle,
-[onclick],
-input,
-textarea {
-    cursor: none !important;
-}
-
-/* Force cursor none everywhere */
-* {
-    cursor: none !important;
-}
+/* Cursor scoping handled by body.custom-cursor-enabled */

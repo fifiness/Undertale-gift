@@ -24,6 +24,8 @@ const sampleDialogues = [
 function App() {
   const [dialogueComplete, setDialogueComplete] = useState(false);
   const [isCompact, setIsCompact] = useState(false);
+  const [isHeartEnabled, setIsHeartEnabled] = useState(true);
+  const [isShakeEnabled, setIsShakeEnabled] = useState(true);
 
   const handleDialogueComplete = () => {
     setDialogueComplete(true);
@@ -33,23 +35,28 @@ function App() {
     }, 2000);
   };
 
-  const toggleCompactMode = () => {
-    setIsCompact(!isCompact);
-  };
+  const toggleCompactMode = () => setIsCompact(!isCompact);
+  const toggleHeartCursor = () => setIsHeartEnabled(!isHeartEnabled);
+  const toggleShakeEffect = () => setIsShakeEnabled(!isShakeEnabled);
 
   return (
     <div className={`app ${isCompact ? 'compact-layout' : ''}`}>
-      <HeartCursor />
+      {isHeartEnabled && <HeartCursor />}
       <WebcamMirror isCompact={isCompact} />
       <SettingsPanel
         isCompact={isCompact}
         onToggleCompact={toggleCompactMode}
+        isHeartEnabled={isHeartEnabled}
+        onToggleHeart={toggleHeartCursor}
+        isShakeEnabled={isShakeEnabled}
+        onToggleShake={toggleShakeEffect}
       />
 
       {!dialogueComplete ? (
         <DialogueBox
           dialogues={sampleDialogues}
           onComplete={handleDialogueComplete}
+          enableShake={isShakeEnabled}
         />
       ) : (
         <div className="complete-message">

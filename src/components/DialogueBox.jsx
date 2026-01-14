@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import soundEffects from '../utils/soundEffects';
 import './DialogueBox.css';
 
-const DialogueBox = ({ dialogues, onComplete }) => {
+const DialogueBox = ({ dialogues, onComplete, enableShake = true }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [displayedText, setDisplayedText] = useState('');
     const [isTyping, setIsTyping] = useState(false);
@@ -77,7 +77,7 @@ const DialogueBox = ({ dialogues, onComplete }) => {
         } else {
             if (currentIndex < dialogues.length - 1) {
                 // Check if advancing to final dialogue (index 2 = "Still just you, Amina")
-                if (currentIndex === 1) {
+                if (currentIndex === 1 && enableShake) {
                     triggerScreenEffect();
                 }
                 // Advance to next dialogue
