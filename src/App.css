@@ -24,6 +24,16 @@
   z-index: 10;
 }
 
+/* Accessibility: High contrast focus for keyboard navigation */
+button:focus-visible,
+a:focus-visible,
+.setting-toggle:focus-visible,
+.settings-icon:focus-visible {
+  outline: 4px solid #fbff00;
+  outline-offset: 2px;
+  box-shadow: 0 0 10px #fbff00;
+}
+
 .complete-message {
   text-align: center;
   display: flex;

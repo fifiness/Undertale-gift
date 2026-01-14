@@ -8,7 +8,18 @@ const WebcamMirror = ({ isCompact }) => {
     const [started, setStarted] = useState(false);
     const [cancelled, setCancelled] = useState(false);
 
+    const stopWebcam = () => {
+        if (videoRef.current && videoRef.current.srcObject) {
+            const tracks = videoRef.current.srcObject.getTracks();
+            tracks.forEach(track => track.stop());
+            videoRef.current.srcObject = null;
+        }
+    };
+
     const startWebcam = async () => {
+        // Ensure any previous stream is stopped
+        stopWebcam();
+
         try {
             setLoading(true);
             setError(null);
@@ -57,6 +68,7 @@ const WebcamMirror = ({ isCompact }) => {
     };
 
     const handleCancel = () => {
+        stopWebcam();
         setCancelled(true);
         setError(null);
         setLoading(false);
@@ -66,10 +78,7 @@ const WebcamMirror = ({ isCompact }) => {
     useEffect(() => {
         // Cleanup function to stop webcam when component unmounts
         return () => {
-            if (videoRef.current && videoRef.current.srcObject) {
-                const tracks = videoRef.current.srcObject.getTracks();
-                tracks.forEach(track => track.stop());
-            }
+            stopWebcam();
         };
     }, []);
 

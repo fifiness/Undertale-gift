@@ -9,6 +9,10 @@ import './App.css';
 const sampleDialogues = [
   {
     speaker: '',
+    text: "..."
+  },
+  {
+    speaker: '',
     text: "* It's you!"
   },
   {
